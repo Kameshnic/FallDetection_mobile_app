@@ -1,0 +1,112 @@
+/* General Styling */
+body {
+  font-family: 'Arial', sans-serif;
+  background-color: #f4f4f9;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+}
+
+/* Title Styling */
+.title {
+  text-align: center;
+  font-size: 2.5rem;
+  font-weight: bold;
+  color: #4a4a4a;
+  margin-bottom: 30px;
+}
+
+/* Card Styling */
+.card {
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  margin: 20px;
+  width: 300px;
+  max-width: 80%;
+}
+
+.sensor-card {
+  background-color: #e0f7fa;
+}
+
+.activity-card {
+  background-color: #ffecb3;
+  border: 2px solid #ff9800;
+  text-align: center;
+}
+
+.activity-card.fall {
+  background-color: #ffccbc;
+  border-color: #e57373;
+}
+
+.fall-alert {
+  color: #d32f2f;
+  font-weight: bold;
+}
+
+.hospital-card {
+  background-color: #e8f5e9;
+}
+
+.hospital-item {
+  margin: 10px 0;
+  padding: 10px;
+  background-color: #c8e6c9;
+  border-radius: 5px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.hospital-item strong {
+  font-size: 1.1rem;
+  color: #388e3c;
+}
+
+/* Loading Spinner */
+.loading-spinner {
+  text-align: center;
+  color: #2196f3;
+  font-size: 1.2rem;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Button Styling */
+.button-container {
+  text-align: center;
+}
+
+.test-fall-button {
+  padding: 10px 20px;
+  background-color: #f44336;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  font-size: 1.2rem;
+  cursor: pointer;
+  margin-top: 20px;
+}
+
+.test-fall-button:hover {
+  background-color: #d32f2f;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .card {
+      width: 90%;
+  }
+
+  .title {
+      font-size: 2rem;
+  }
+}
