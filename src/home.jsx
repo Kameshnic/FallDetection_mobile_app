@@ -55,16 +55,25 @@ const Home = () => {
 
     return (
         <div className="App">
-            <h1 className="title">Fall Detection Live Dashboard</h1>
+            <h1 style={{ fontSize: '3rem', fontWeight: 'bold', textAlign: 'center', color: '#4a90e2', marginBottom: '40px', textShadow: '2px 2px 5px rgba(0, 0, 0, 0.3)', }} >
+            Fall Detection Live Dashboard
+            </h1>
 
             {/* Sensor Data */}
-            <div className="card sensor-card">
-                <h2>Sensor Data</h2>
-                {sensorData ? (
-                    <pre>{JSON.stringify(sensorData, null, 2)}</pre>
-                ) : (
-                    <p>Loading sensor data...</p>
-                )}
+            <div
+            style={{ backgroundColor: '#e3f2fd', borderRadius: '12px', boxShadow: '0 8px 15px rgba(0, 0, 0, 0.2)', padding: '30px',paddingTop: '0px' ,margin: '20px auto', width: '80%', maxWidth: '600px', border: '2px solid #42a5f5', textAlign: 'center', }} >
+            <h2 style={{ fontSize: '2rem', fontWeight: '600', marginBottom: '20px', color: '#1e88e5', }} >
+                Sensor Data
+            </h2>
+            {sensorData ? (
+                <pre style={{ fontSize: '1.2rem', padding: '20px',backgroundColor: '#8cb8ed', color: '#757575', borderRadius: '8px', overflow: 'auto', boxShadow: 'inset 0 4px 6px rgba(0, 0, 0, 0.1)', textAlign: 'left', whiteSpace: 'pre-wrap', wordWrap: 'break-word',}}>
+                    {JSON.stringify(sensorData, null, 2)}
+                </pre>
+            ) : (
+                <p style={{ fontSize: '1.5rem', color: '#757575', fontStyle: 'italic', }} >
+                    Loading sensor data...
+                </p>
+            )}
             </div>
 
             {/* Predicted Activity */}
