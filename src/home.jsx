@@ -11,8 +11,24 @@ const Home = () => {
     const [fallDetected, setFallDetected] = useState(false);
     const [hospitals, setHospitals] = useState([]);
     const [loadingHospitals, setLoadingHospitals] = useState(true);
+    const [userLocation, setUserLocation] = useState(null);
 
     useEffect(() => {
+        // Get the user's current location
+        navigator.geolocation.getCurrentPosition(
+            (position) => {
+                const { latitude, longitude } = position.coords;
+                setUserLocation({ latitude, longitude });
+
+                // Fetch nearby hospitals based on the current location
+                fetchNearbyHospitals(latitude, longitude);
+            },
+            (error) => {
+                console.error('Error getting location:', error);
+                setLoadingHospitals(false);
+            }
+        );
+
         socket.on('sensorData', (data) => {
             setSensorData(data);
             const predictedActivity = predictActivity(data);
@@ -27,21 +43,21 @@ const Home = () => {
             }
         });
 
-        axios
-            .get('http://localhost:5000/api/hospitals/nearby')
-            .then((response) => {
-                setHospitals(Array.isArray(response.data) ? response.data : []);
-                setLoadingHospitals(false);
-            })
-            .catch((error) => {
-                console.error('Error fetching hospitals:', error);
-                setLoadingHospitals(false);
-            });
-
         return () => {
             socket.off('sensorData');
         };
     }, []);
+
+    const fetchNearbyHospitals = async (latitude, longitude) => {
+        try {
+            const response = await axios.get(`http://localhost:5000/api/hospital/nearby?latitude=${latitude}&longitude=${longitude}`);
+            setHospitals(response.data.nearbyHospitals || []);
+        } catch (error) {
+            console.error('Error fetching hospitals:', error);
+        } finally {
+            setLoadingHospitals(false);
+        }
+    };
 
     const predictActivity = (data) => {
         if (data.accelerometer.z > 5) {
@@ -55,25 +71,24 @@ const Home = () => {
 
     return (
         <div className="App">
-            <h1 style={{ fontSize: '3rem', fontWeight: 'bold', textAlign: 'center', color: '#4a90e2', marginBottom: '40px', textShadow: '2px 2px 5px rgba(0, 0, 0, 0.3)', }} >
-            Fall Detection Live Dashboard
+            <h1 style={{ fontSize: '3rem', fontWeight: 'bold', textAlign: 'center', color: '#4a90e2', marginBottom: '40px', textShadow: '2px 2px 5px rgba(0, 0, 0, 0.3)' }}>
+                Fall Detection Live Dashboard
             </h1>
 
             {/* Sensor Data */}
-            <div
-            style={{ backgroundColor: '#e3f2fd', borderRadius: '12px', boxShadow: '0 8px 15px rgba(0, 0, 0, 0.2)', padding: '30px',paddingTop: '0px' ,margin: '20px auto', width: '80%', maxWidth: '600px', border: '2px solid #42a5f5', textAlign: 'center', }} >
-            <h2 style={{ fontSize: '2rem', fontWeight: '600', marginBottom: '20px', color: '#1e88e5', }} >
-                Sensor Data
-            </h2>
-            {sensorData ? (
-                <pre style={{ fontSize: '1.2rem', padding: '20px',backgroundColor: '#8cb8ed', color: '#757575', borderRadius: '8px', overflow: 'auto', boxShadow: 'inset 0 4px 6px rgba(0, 0, 0, 0.1)', textAlign: 'left', whiteSpace: 'pre-wrap', wordWrap: 'break-word',}}>
-                    {JSON.stringify(sensorData, null, 2)}
-                </pre>
-            ) : (
-                <p style={{ fontSize: '1.5rem', color: '#757575', fontStyle: 'italic', }} >
-                    Loading sensor data...
-                </p>
-            )}
+            <div style={{ backgroundColor: '#e3f2fd', borderRadius: '12px', boxShadow: '0 8px 15px rgba(0, 0, 0, 0.2)', padding: '30px', paddingTop: '0px', margin: '20px auto', width: '80%', maxWidth: '600px', border: '2px solid #42a5f5', textAlign: 'center' }}>
+                <h2 style={{ fontSize: '2rem', fontWeight: '600', marginBottom: '20px', color: '#1e88e5' }}>
+                    Sensor Data
+                </h2>
+                {sensorData ? (
+                    <pre style={{ fontSize: '1.2rem', padding: '20px', backgroundColor: '#8cb8ed', color: '#757575', borderRadius: '8px', overflow: 'auto', boxShadow: 'inset 0 4px 6px rgba(0, 0, 0, 0.1)', textAlign: 'left', whiteSpace: 'pre-wrap', wordWrap: 'break-word' }}>
+                        {JSON.stringify(sensorData, null, 2)}
+                    </pre>
+                ) : (
+                    <p style={{ fontSize: '1.5rem', color: '#757575', fontStyle: 'italic' }}>
+                        Loading sensor data...
+                    </p>
+                )}
             </div>
 
             {/* Predicted Activity */}
@@ -103,6 +118,15 @@ const Home = () => {
                 )}
             </div>
 
+            {/* Display User Location */}
+            {userLocation && (
+                <div className="location-card">
+                    <h2>Your Current Location</h2>
+                    <p>Latitude: {userLocation.latitude}</p>
+                    <p>Longitude: {userLocation.longitude}</p>
+                </div>
+            )}
+
             {/* Button to manually trigger an alarm for testing */}
             <div className="button-container">
                 <button
@@ -120,4 +144,4 @@ const Home = () => {
     );
 }
 
-export default Home
+export default Home;
