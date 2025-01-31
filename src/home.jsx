@@ -57,7 +57,7 @@ const Home = () => {
 
     const fetchNearbyHospitals = async (latitude, longitude) => {
         try {
-            const response = await fetch(`http://localhost:5000/api/hospital/nearby?latitude=${latitude}&longitude=${longitude}`);
+            const response = await fetch(`http://localhost:5000/api/hospitals/nearby?latitude=${latitude}&longitude=${longitude}`);
             if (!response.ok) throw new Error('Failed to fetch hospitals');
             const data = await response.json();
             setHospitals(data.nearbyHospitals || []);

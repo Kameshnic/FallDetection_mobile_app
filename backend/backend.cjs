@@ -1,6 +1,6 @@
 const express = require('express');
 const cors = require('cors');
-require('dotenv').config();
+require('dotenv').config({ path: '../.env' });
 
 const MAPBOX_ACCESS_TOKEN = process.env.MAPBOX_API;
 const generateSensorData = require('./data/sensorData');
