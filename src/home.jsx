@@ -57,7 +57,7 @@ const Home = () => {
 
     const fetchNearbyHospitals = async (latitude, longitude) => {
         try {
-            const response = await fetch(`http://localhost:5000/api/hospitals/nearby?latitude=${latitude}&longitude=${longitude}`);
+            const response = await fetch(`http://localhost:5000/api/hospital/nearby?latitude=${latitude}&longitude=${longitude}`);
             if (!response.ok) throw new Error('Failed to fetch hospitals');
             const data = await response.json();
             setHospitals(data.nearbyHospitals || []);
@@ -110,9 +110,9 @@ const Home = () => {
 
             {/* Nearby Hospitals */}
             <div className="card hospital-card">
-                <h2>Nearby Hospitals</h2>
+                <h2 style={{marginTop: "-5px", marginBottom: "-5px"}}>Nearby Hospitals</h2>
                 {loadingHospitals ? (
-                    <div className="loading-spinner">Loading hospitals...</div>
+                    <div className="loading-spinner">↺</div>
                 ) : hospitals.length === 0 ? (
                     <p>No hospitals found nearby.</p>
                 ) : (
@@ -120,7 +120,7 @@ const Home = () => {
                         {hospitals.map((hospital) => (
                             <li key={hospital.id} className="hospital-item">
                                 <strong>{hospital.name}</strong>
-                                <p>{hospital.address}</p>
+                                <p style={{marginTop: "-5px", marginBottom: "-5px"}}>{hospital.address}</p>
                             </li>
                         ))}
                     </ul>
@@ -130,12 +130,17 @@ const Home = () => {
             {/* Display User Location */}
             {userLocation && (
                 <div className="location-card">
-                    <h2>Your Current Location</h2>
-                    <p>Latitude: {userLocation.latitude}</p>
-                    <p>Longitude: {userLocation.longitude}</p>
+                    <h2 style={{fontSize: '1.1rem', marginBottom: '-15px',marginLeft: '20px'}}>Your Current Location</h2>
+                    <div style={{display: 'flex',marginLeft: '20px'}}>
+                        <p style={{fontSize: '0.8rem', marginRight: '5px'}}>Latitude: {userLocation.latitude}  ,</p>
+                        <p style={{fontSize: '0.8rem'}}>Longitude: {userLocation.longitude}</p>
+                    </div>
                 </div>
             )}
             </div>
+
+            <div></div>
+
             </div>
 
             {/* Button to manually trigger an alarm for testing */}

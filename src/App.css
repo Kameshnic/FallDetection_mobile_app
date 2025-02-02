@@ -51,15 +51,28 @@ body {
 }
 
 .hospital-card {
-  background-color: #e8f5e9;
+  background-color: #cefbd1;
+  border: 2px solid #4eb451;
+  width: 410px;
+  margin-left: 0px;
 }
 
 .hospital-item {
   margin: 10px 0;
   padding: 10px;
-  background-color: #c8e6c9;
+  background-color: #9ee0a0;
   border-radius: 5px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  margin-left: -35px;
+}
+
+.location-card {
+  background-color: #e3f2fd;
+  border: 2px solid #549ccf;
+  width: 420px;
+  border-radius: 20px;
+  height: 80px;
+  color: black;
 }
 
 .hospital-item strong {
