@@ -161,42 +161,57 @@ const Home = () => {
             </div>
 
             <div>
-                <div className="border p-4 rounded-lg shadow-md">
-                    <h2 className="text-xl font-bold">User Info</h2>
-                    <p><strong>Username:</strong> {localStorage.getItem("user") || user.username}</p>
+            <div style={{ padding: "15px", backgroundColor: "#e3f2fd", borderRadius: "8px", marginBottom: "15px" }}>
+                    <h2 style={{ margin: 0, fontSize: "18px", color: "#1565c0" }}>User Info</h2>
+                    <p style={{ margin: "5px 0", color: "#333" }}><strong>Username:</strong> {localStorage.getItem("user") || user.username}</p>
                 </div>
 
-                <div className="border p-4 rounded-lg shadow-md">
-                    <h2 className="text-xl font-bold">Add Contact</h2>
-                    <input
-                        type="text"
-                        name="username"
-                        placeholder="Enter Username"
-                        value={newContact.username}
-                        onChange={handleInputChange}
-                        className="border p-2 m-2 w-full"
-                    />
-                    <input
-                        type="text"
-                        name="phone"
-                        placeholder="Enter Phone Number"
-                        value={newContact.phone}
-                        onChange={handleInputChange}
-                        className="border p-2 m-2 w-full"
-                    />
-                    <button onClick={addContact} className="bg-blue-500 text-white p-2 rounded-md">
-                        Add Contact
-                    </button>
+                {/* Add Contact Section */}
+                <div style={{ padding: "15px", backgroundColor: "#f1f1f1", borderRadius: "8px", marginBottom: "15px" }}>
+                    <h2 style={{ margin: 0, fontSize: "18px", color: "#444" }}>Add Contact</h2>
+                    <div style={{ marginTop: "10px" }}>
+                        <input
+                            type="text"
+                            name="username"
+                            placeholder="Enter Username"
+                            value={newContact.username}
+                            onChange={handleInputChange}
+                            style={{ width: "100%", padding: "8px", marginBottom: "10px", borderRadius: "5px", border: "1px solid #ccc", outline: "none" }}
+                        />
+                        <input
+                            type="text"
+                            name="phone"
+                            placeholder="Enter Phone Number"
+                            value={newContact.phone}
+                            onChange={handleInputChange}
+                            style={{ width: "100%", padding: "8px", marginBottom: "10px", borderRadius: "5px", border: "1px solid #ccc", outline: "none" }}
+                        />
+                        <button 
+                            onClick={addContact} 
+                            style={{ width: "100%", padding: "10px", backgroundColor: "#1976d2", color: "#fff", border: "none", borderRadius: "5px", cursor: "pointer", fontWeight: "bold" }}
+                            onMouseOver={(e) => e.target.style.backgroundColor = "#1565c0"}
+                            onMouseOut={(e) => e.target.style.backgroundColor = "#1976d2"}
+                        >
+                            Add Contact
+                        </button>
+                    </div>
                 </div>
 
                 {/* Contacts Section */}
-                <div className="border p-4 rounded-lg shadow-md">
-                    <h2 className="text-xl font-bold">Contacts</h2>
-                    {contacts.map((contact, index) => (
-                        <div key={index} className="p-2 border-b">
-                            <p><strong>{contact.username}</strong> - {contact.phone}</p>
-                        </div>
-                    ))}
+                <div style={{ padding: "15px", backgroundColor: "#fff", borderRadius: "8px", boxShadow: "0px 2px 4px rgba(0,0,0,0.1)" }}>
+                    <h2 style={{ margin: 0, fontSize: "18px", color: "#444" }}>Contacts</h2>
+                    <div style={{ marginTop: "10px" }}>
+                        {contacts.map((contact, index) => (
+                            <div 
+                                key={index} 
+                                style={{ padding: "10px", backgroundColor: index % 2 === 0 ? "#f9f9f9" : "#e3f2fd", borderRadius: "5px", marginBottom: "5px" }}
+                            >
+                                <p style={{ margin: 0, color: "#333" }}>
+                                    <strong>{contact.username}</strong> - {contact.phone}
+                                </p>
+                            </div>
+                        ))}
+                    </div>
                 </div>
             </div>
 
