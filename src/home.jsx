@@ -8,6 +8,11 @@ const Home = () => {
     const [hospitals, setHospitals] = useState([]);
     const [loadingHospitals, setLoadingHospitals] = useState(true);
     const [userLocation, setUserLocation] = useState(null);
+    const [newContact, setNewContact] = useState({ username: "", phone: "" });
+    const [contacts, setContacts] = useState([
+        { username: "JohnDoe", phone: "1234567890" },
+        { username: "Alice", phone: "9876543210" }
+    ]);
 
     useEffect(() => {
         // Get the user's current location
@@ -32,6 +37,22 @@ const Home = () => {
 
         return () => clearInterval(interval); // Cleanup interval on unmount
     }, []);
+
+    const handleInputChange = (e) => {
+        setNewContact({ ...newContact, [e.target.name]: e.target.value });
+    };
+
+    const addContact = () => {
+        if (newContact.username && newContact.phone) {
+            if(newContact.phone==="me"){
+                localStorage.setItem("user", newContact.username);
+            }
+            else{
+                setContacts([...contacts, newContact]);
+            }
+            setNewContact({ username: "", phone: "" });
+        }
+    };
 
     const fetchSensorData = async () => {
         try {
@@ -85,7 +106,7 @@ const Home = () => {
             </h1>
             <div style={{display:'flex',gap:'30px',marginBottom:'-20px',flexWrap: 'wrap'}}>
             {/* Sensor Data */}
-            <div style={{ backgroundColor: '#e3f2fd', borderRadius: '12px', boxShadow: '0 8px 15px rgba(0, 0, 0, 0.2)', padding: '20px', paddingTop: '0px', margin: '20px auto',marginTop:'0px', width: '100%', maxWidth: '600px', maxHeight: '1200px', border: '2px solid #42a5f5', textAlign: 'center', flex: '1' }}>
+            <div style={{ backgroundColor: '#e3f2fd', borderRadius: '12px', boxShadow: '0 8px 15px rgba(0, 0, 0, 0.2)', padding: '20px', paddingTop: '0px', margin: '20px auto',marginTop:'0px', width: '100%', maxWidth: '600px', maxHeight: '1200px', border: '2px solid #42a5f5', textAlign: 'center', flex: '1',height:'578px'}}>
                 <h2 style={{ fontSize: '2rem', fontWeight: '600', color: '#1e88e5', marginTop: '0px', marginBottom: '-20px' }}>
                     Sensor Data
                 </h2>
@@ -139,7 +160,45 @@ const Home = () => {
             )}
             </div>
 
-            <div></div>
+            <div>
+                <div className="border p-4 rounded-lg shadow-md">
+                    <h2 className="text-xl font-bold">User Info</h2>
+                    <p><strong>Username:</strong> {localStorage.getItem("user") || user.username}</p>
+                </div>
+
+                <div className="border p-4 rounded-lg shadow-md">
+                    <h2 className="text-xl font-bold">Add Contact</h2>
+                    <input
+                        type="text"
+                        name="username"
+                        placeholder="Enter Username"
+                        value={newContact.username}
+                        onChange={handleInputChange}
+                        className="border p-2 m-2 w-full"
+                    />
+                    <input
+                        type="text"
+                        name="phone"
+                        placeholder="Enter Phone Number"
+                        value={newContact.phone}
+                        onChange={handleInputChange}
+                        className="border p-2 m-2 w-full"
+                    />
+                    <button onClick={addContact} className="bg-blue-500 text-white p-2 rounded-md">
+                        Add Contact
+                    </button>
+                </div>
+
+                {/* Contacts Section */}
+                <div className="border p-4 rounded-lg shadow-md">
+                    <h2 className="text-xl font-bold">Contacts</h2>
+                    {contacts.map((contact, index) => (
+                        <div key={index} className="p-2 border-b">
+                            <p><strong>{contact.username}</strong> - {contact.phone}</p>
+                        </div>
+                    ))}
+                </div>
+            </div>
 
             </div>
 
